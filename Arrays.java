@@ -1,13 +1,11 @@
 package array;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 // Date : 30 Jul 2024
 public class Main {
     static Random random = new Random();
+    private static int num;
 
     static int largestElement(int[] arr) {
         int largest = arr[0];
@@ -176,18 +174,89 @@ public class Main {
                 res.add(first[i]);
                 i++;
                 j++;
-            } else if(first[i] > second[j]) {
+            } else if (first[i] > second[j]) {
                 j++;
-            } else if(first[i] < second[j]) {
+            } else if (first[i] < second[j]) {
                 i++;
             }
         }
         return res;
     }
 
+    static int missingNumber(int[] arr, int n) {
+//        int finalSum = (n * (n + 1)) / 2;
+//        int sum = Arrays.stream(arr).sum();
+//        return finalSum - sum;
+
+        int xor1 = 0, xor2 = 0;
+        for (int i = 0; i < n - 1; i++) {
+            xor2 = xor2 ^ arr[i];
+            xor1 = xor1 ^ (i + 1);
+        }
+        xor1 = xor1 ^ n;
+        return xor1 ^ xor2;
+    }
+
+    static int maxConsecutive(int[] arr, int num) {
+        int maxc = 0;
+        int count = 0;
+        for (int elm : arr) {
+            if (elm == num) {
+                count++;
+                maxc = Math.max(count, maxc);
+            } else
+                count = 0;
+        }
+        return maxc;
+    }
+
+    static int numberAppearOnceOtherNumberTwice(int[] arr) {
+        int number = 0;
+        for (int elm : arr)
+            number = number ^ elm;
+        return number;
+    }
+
+    static void generateAllSubArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i; j < arr.length; j++) {
+                for (int k = i; k < j; k++) {
+                    System.out.print(arr[k] + " ");
+                }
+                System.out.println();
+            }
+        }
+    }
+
+    static int longestSubArrayWithSumK(int[] arr, int key) {
+        int sum = 0, len = 0;
+        Map<Integer, Integer> hash = new HashMap<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+
+            if (sum == key)
+                len = Math.max(len, i + 1);
+
+            if (hash.containsKey(sum - key)) {
+                int prev = hash.get(sum - key);
+                len = Math.max(len, i - prev);
+            }
+            if (!hash.containsKey(sum))
+                hash.put(sum, i);
+        }
+        return len;
+    }
+
+    static void sort012(int[] arr) {
+        // BF count 0,1,2 then fill the org arr accod
+        // OP Dutch National Flag algo
+
+    }
+
     public static void main(String[] args) {
         var arr = new int[10];
-        fillIntArray(arr, 50);
+        fillIntArray(arr, 100);
 
 //        printIntArray(arr);
 //        System.out.println("Largest is " + largestElement(arr));
@@ -199,18 +268,24 @@ public class Main {
 //        System.out.println("rotateByN is " + rotateByN(arr, 3));
 //        System.out.println("moveZeroToEnd is " + moveZeroToEnd(new int[]{1, 0, 20, 0, 0, 3, 4, 6, 7, 0, 13, 31, 234}));
 
-        var first = new int[10];
-        var second = new int[10];
-        fillIntArray(first, 10);
-        fillIntArray(second, 10);
-
-        Arrays.sort(first);
-        Arrays.sort(second);
-        printIntArray(first);
-        printIntArray(second);
+//        var first = new int[10];
+//        var second = new int[10];
+//        fillIntArray(first, 10);
+//        fillIntArray(second, 10);
+//
+//        Arrays.sort(first);
+//        Arrays.sort(second);
+//        printIntArray(first);
+//        printIntArray(second);
 //        System.out.println(unionOfTwoSortedArray(first, second));
-        System.out.println(intersectionOfTwoSortedArray(first, second));
+//        System.out.println(intersectionOfTwoSortedArray(first, second));
 
+//        System.out.println(missingNumber(new int[]{1, 2, 3, 5}, 5));
+
+//        System.out.println(maxConsecutive(new int[]{1, 3, 2, 2, 3, 3, 3, 4, 3, 3}, 3));
+//        System.out.println(numberAppearOnceOtherNumberTwice(new int[]{1, 2, 1, 2, 3, 3, 4, 5, 5, 4, 6}));
+//        generateAllSubArray(arr);
+        System.out.println(longestSubArrayWithSumK(new int[]{2, 0, 0, 3}, 3));
 
     }
 
@@ -228,4 +303,6 @@ public class Main {
         }
         System.out.println();
     }
+
+
 }
