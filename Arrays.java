@@ -252,11 +252,83 @@ public class Main {
         // BF count 0,1,2 then fill the org arr accod
         // OP Dutch National Flag algo
 
+        int low = 0, mid = 0, high = arr.length - 1;
+
+        while (mid <= high) {
+            if (arr[mid] == 0) {
+                swap(arr, low, mid);
+                low++;
+                mid++;
+            } else if (arr[mid] == 1) {
+                mid++;
+            } else {
+                swap(arr, mid, high);
+                high--;
+            }
+        }
+
+    }
+
+
+    static void majorityElement(int[] arr) {
+        // BF: pick one elm and scan and count and check n/2
+        // Better: use map to store the count and then calculate
+        // OS: Moore's Voting Algorithm
+
+        int count = 0, elm = arr[0];
+        for (int i = 0; i < arr.length; i++) {
+            if (count == 0) {
+                count++;
+                elm = arr[i];
+            } else if (elm == arr[i]) {
+                count++;
+            } else
+                count--;
+        }
+
+        System.out.println(elm);
+    }
+
+    static void maximumSubArraySum(int[] arr) {
+        // BF: Generate all sub array and sum and take max
+
+        // Better
+        int maxSum = Integer.MIN_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            int sum = 0;
+            for (int j = i; j < arr.length; j++) {
+                sum += arr[j];
+            }
+            maxSum = Math.max(maxSum, sum);
+        }
+
+        System.out.println(maxSum);
+
+        // OS: Kadane's Algorithm
+
+        int sum = arr[0], kmaxSum = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            sum = Math.max(arr[i], sum + arr[i]);
+            kmaxSum = Math.max(sum, kmaxSum);
+        }
+        System.out.println(maxSum);
+
+    }
+
+    static void leaderInArray(int[] arr) {
+        int leader = arr[arr.length - 1];
+        for (int i = arr.length - 2; i >= 0; i--) {
+            if (arr[i] > leader) {
+                System.out.print(leader + " ");
+                leader = arr[i];
+            }
+        }
+        System.out.println(leader);
     }
 
     public static void main(String[] args) {
         var arr = new int[10];
-        fillIntArray(arr, 100);
+        fillIntArray(arr, 3);
 
 //        printIntArray(arr);
 //        System.out.println("Largest is " + largestElement(arr));
@@ -285,8 +357,14 @@ public class Main {
 //        System.out.println(maxConsecutive(new int[]{1, 3, 2, 2, 3, 3, 3, 4, 3, 3}, 3));
 //        System.out.println(numberAppearOnceOtherNumberTwice(new int[]{1, 2, 1, 2, 3, 3, 4, 5, 5, 4, 6}));
 //        generateAllSubArray(arr);
-        System.out.println(longestSubArrayWithSumK(new int[]{2, 0, 0, 3}, 3));
+//        System.out.println(longestSubArrayWithSumK(new int[]{2, 0, 0, 3}, 3));
 
+//        printIntArray(arr);
+//        sort012(arr);
+//        printIntArray(arr);
+
+//        majorityElement(new int[]{2, 2, 1, 3, 1, 1, 3, 3, 3});
+        leaderInArray(new int[]{10,22,12,3,0,6});
     }
 
     private static void fillIntArray(int[] arr, int range) {
@@ -306,3 +384,5 @@ public class Main {
 
 
 }
+
+
