@@ -99,3 +99,39 @@
 
         return words[words.length-1].length();
     }
+
+    public int removeElement(int[] nums, int val) {
+        int idx = -1;
+        int count = 0;
+        // got the first occ
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == val) {
+                idx = i;
+                count++;
+                break;
+            }
+        }
+
+        if(idx==-1){
+            return nums.length;
+        }
+
+        for (int i = idx + 1; i < nums.length; i++) {
+            if(nums[i]==val)
+                count++;
+
+            if (nums[i] != val) {
+                // swap nums[i] and nums[idx]
+                int temp = nums[i];
+                nums[i] = nums[idx];
+                nums[idx] = temp;
+                idx++;
+            }
+
+            
+        }
+
+        // System.out.println(Arrays.toString(nums));
+
+        return nums.length - count;
+    }
