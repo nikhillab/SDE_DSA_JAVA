@@ -135,3 +135,65 @@
 
         return nums.length - count;
     }
+
+    public int search(int[] nums, int target) {
+        int idx = -1;
+
+        int low = 0, high = nums.length - 1;
+        int mid = 0;
+        while (low <= high) {
+            mid = (low + high) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] > target) {
+                high = mid - 1;
+            } else {
+                low=mid+1;
+            }
+
+        }
+
+        return idx;
+    }
+    public String longestCommonPrefix(String[] strs) {
+        String res = "";
+        if (strs.length == 0) {
+            return res;
+        }
+        for (int i = 0; i < strs[0].length(); i++) {
+            for (int j = 1; j < strs.length; j++) {
+                // return didn't match
+                // System.out.println(i+" "+strs[j].length() + " " + strs[0].charAt(i) + " " +
+                // strs[j].charAt(i));
+
+                if (i >= strs[j].length() || strs[0].charAt(i) != strs[j].charAt(i)) {
+                    return res;
+                }
+            }
+            // add to res
+            res += strs[0].charAt(i);
+            // System.out.println(res);
+        }
+
+        return res;
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> res = new HashMap<>();
+
+        for (String s : strs) {
+            var arr = s.toCharArray();
+            Arrays.sort(arr);
+            var key = new String(arr);
+            if (!res.containsKey(key)) {
+                res.put(key, new ArrayList<>() {
+                    {
+                        add(s);
+                    }
+                });
+            } else {
+                res.get(key).add(s);
+            }
+        }
+        return new ArrayList<>(res.values());
+    }
