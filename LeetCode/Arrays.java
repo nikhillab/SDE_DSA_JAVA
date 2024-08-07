@@ -197,3 +197,112 @@
         }
         return new ArrayList<>(res.values());
     }
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        // // 0 [4,3,2,7,8,2,3,1]
+        // // 1 [-1,3,2,4,8,2,3,1] t=7
+        // // 2 [-1,2,3,4,8,2,3,1] t=7
+        // // 3 [-1,2,3,4,8,2,3,1]
+        // // 4 [-1,2,3,4,8,2,3,1]
+        // // 5 [-1,2,3,4,-1,2,3,1] t=7,8
+        // // 6 [-1,2,3,4,-1,-1,3,1] t=7,8
+        // // 7 [-1,2,3,4,-1,-1,7,1] t=8
+        // // 8 [1,2,3,4,-1,-1,7,8] t
+        // Set<Integer> temps = new TreeSet<>();
+        // for (int i = 1; i <= nums.length; i++) {
+        //     if (nums[i - 1] != i) {
+        //         int temp = nums[i - 1];
+        //         nums[i - 1] = -1;
+        //         if (temps.contains(i)) {
+        //             temps.remove(i);
+        //             nums[i - 1] = i;
+        //         }
+        //         temps.add(nums[temp - 1]);
+        //         nums[temp - 1] = temp;
+        //     }
+        // }
+        // for (int num : temps) {
+        //     if (num > 0) {
+        //         nums[num - 1] = num;
+        //     }
+        // }
+
+        // List<Integer> res = new ArrayList<>();
+        // for (int i = 1; i <= nums.length; i++) {
+        //     if (nums[i - 1] == -1) {
+        //         res.add(i);
+        //     }
+        // }
+
+        // return res;
+
+        boolean[] isAvailable = new boolean[nums.length];
+        for(int i=0;i<nums.length;i++){
+            isAvailable[nums[i]-1] = true;
+        }
+        List<Integer> ans = new ArrayList<>();
+        for(int i=0;i<isAvailable.length;i++){
+            if(!isAvailable[i]){
+                ans.add(i+1);
+            }
+        }
+        return ans;
+    }
+
+    public boolean isIsomorphic(String s, String t) {
+        Map<Character, Character> mapping = new HashMap<>();
+        Set<Character> tracker= new HashSet<>();
+        for (int i = 0; i < s.toCharArray().length; i++) {
+
+            if (mapping.containsKey(s.charAt(i))) {
+                if(mapping.get(s.charAt(i)) != t.charAt(i))
+                    return false;
+            } else {
+                if(tracker.contains(t.charAt(i))){
+                    return false;
+                }
+                mapping.put(s.charAt(i),t.charAt(i));
+                tracker.add(t.charAt(i));
+            }
+        }
+        // System.out.println(mapping);
+
+
+        return true;  
+    }
+
+    public int arraySign(int[] nums) {
+        int product = Arrays.stream(nums).map(num->Integer.compare(num, 0)).reduce(1, (elm, el) -> elm * el);
+        if (product == 0)
+            return 0;
+        else if(product>0)
+            return 1;
+        else
+            return -1;
+
+    }
+
+public void moveZeroes(int[] arr) {
+        int ptr = -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == 0) {
+                ptr = i;
+                break;
+            }
+        }
+        if (ptr == -1) {
+            return ;
+        }
+        for (int i = ptr + 1; i < arr.length; i++) {
+            if (arr[i] != 0) {
+                swap(arr, i, ptr);
+                ptr++;
+
+            }
+        }
+    }
+
+    void swap(int[] arr, int idx, int idx2) {
+        int tmp = arr[idx];
+        arr[idx] = arr[idx2];
+        arr[idx2] = tmp;
+    }
