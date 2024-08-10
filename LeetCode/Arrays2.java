@@ -172,3 +172,82 @@ class MyHashMap {
     void reverse(int nums[],int start,int end){
         while(start<=end) swap(nums,start++,end--);
     }
+    public String firstPalindrome(String[] words) {
+        for (int i = 0; i < words.length; i++) {
+            if (pal(words[i]))
+                return words[i];
+        }
+        return "";
+    }
+
+    public boolean pal(String word) {
+        int i = 0, j = word.length() - 1;
+        while (i <= j) {
+            if (word.charAt(i++) != word.charAt(j--))
+                return false;
+        }
+        return true;
+    }
+    public int[] sortArrayByParity(int[] nums) {
+        int i = -1;
+        for (int j = 0; j < nums.length; j++) {
+            if (nums[j] % 2 != 0) {
+                i = j;
+                break;
+            }
+        }
+        if (i == -1) {
+            return nums;
+        }
+
+        for (int j = i + 1; j < nums.length; j++) {
+            if (nums[j] % 2 == 0) {
+                swap(nums, i, j);
+                i++;
+            }
+        }
+
+        return nums;
+    }
+    public String reverseWords(String s) {
+
+        int start = 0, end = 0;
+        StringBuilder builder = new StringBuilder(s);
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ' ') {
+                end = i;
+                reverse(builder, start, end - 1);
+                start = end + 1;
+            }
+        }
+        reverse(builder, start, s.length() - 1);
+
+        return builder.toString();
+    }
+
+    void reverse(StringBuilder builder, int start, int end) {
+        while (start < end) {
+            char ch = builder.charAt(start);
+            builder.setCharAt(start++, builder.charAt(end));
+            builder.setCharAt(end--, ch);
+        }
+    }
+    public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+        return String.join("", word1).equals(String.join("", word2));
+    }
+    public int[] twoSum(int[] numbers, int target) {
+        int i = 0, j = numbers.length-1;
+
+        while (i <= j) {
+            int sum = numbers[i] + numbers[j];
+            if (sum > target) {
+                j--;
+            } else if (sum < target) {
+                i++;
+            } else {
+                return new int[]{i + 1, j + 1};
+            }
+        }
+
+        return new int[]{-1, -1};
+    }
