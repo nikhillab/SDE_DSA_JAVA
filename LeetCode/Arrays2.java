@@ -251,3 +251,138 @@ class MyHashMap {
 
         return new int[]{-1, -1};
     }
+
+    public int numIdenticalPairs(int[] nums) {
+        int res = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] == nums[j]) {
+                    res++;
+                }
+            }
+        }
+        return res;
+    }
+    public int firstUniqChar(String s) {
+        int idx = -1;
+        int[] cnt = new int[27];
+
+        for (char c : s.toCharArray()) {
+            cnt[c - 'a'] = cnt[c - 'a'] + 1;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (cnt[s.charAt(i) - 'a'] == 1) {
+                return i;
+            }
+        }
+        return idx;
+    }
+    public String frequencySort(String s) {
+        Map<Character, Integer> hm = new HashMap<>();
+
+        for (char c : s.toCharArray()) {
+            hm.put(c, hm.getOrDefault(c, 0) + 1);
+        }
+
+        PriorityQueue<Map.Entry<Character, Integer>> pq = new PriorityQueue<>(
+                (a, b) -> b.getValue() - a.getValue());
+
+        pq.addAll(hm.entrySet());
+
+        StringBuilder result = new StringBuilder();
+        while (!pq.isEmpty()) {
+            Map.Entry<Character, Integer> entry = pq.poll();
+            result.append(String.valueOf(entry.getKey()).repeat(entry.getValue()));
+        }
+
+        return result.toString();
+    }
+    public String largestGoodInteger(String num) {
+        String res = "";
+        int max = -1;
+        for (int i = 2; i < num.length(); i++) {
+            if (num.charAt(i) == num.charAt(i - 1) && num.charAt(i) == num.charAt(i - 2)) {
+                String tmp = num.substring(i - 2, i + 1);
+                if (Integer.parseInt(tmp) > max) {
+                    max = Integer.parseInt(tmp);
+                    res = tmp;
+                }
+
+            }
+        }
+        if (max == -1)
+            return "";
+        return res;
+    }
+    public int strStr(String haystack, String needle) {
+        return haystack.indexOf(needle);
+    }
+
+    public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
+        List<List<Integer>> res = new ArrayList<>();
+        var li = new HashSet<Integer>();
+
+        for (int num : nums1) {
+            boolean pres = false;
+            for (int n : nums2) {
+                if (num == n) {
+                    pres = true;
+                    break;
+                }
+            }
+            if (!pres) {
+                li.add(num);
+            }
+        }
+        res.add(new ArrayList(li));
+
+        li.clear();
+
+        for (int num : nums2) {
+            boolean pres = false;
+            for (int n : nums1) {
+                if (num == n) {
+                    pres = true;
+                    break;
+                }
+            }
+            if (!pres) {
+                li.add(num);
+            }
+        }
+        res.add(new ArrayList(li));
+
+        return res;
+
+    }
+
+    public long zeroFilledSubarray(int[] nums) {
+        long count=0;
+        long ans=0;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==0){
+                count++;
+            }else{
+                count=0;
+            }
+            ans+=count;
+        }
+        return ans;
+    }
+
+    public boolean isPalindrome(int x) {
+        if (x < 0) {
+            return false;
+        }
+
+        int reversed = 0;
+        int temp = x;
+
+        while (temp != 0) {
+            int digit = temp % 10;
+            reversed = reversed * 10 + digit;
+            temp /= 10;
+        }
+
+        return (reversed == x);
+    }
